@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f5f0">
+  <title>Conectar celular · Recorrido</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;padding:32px 20px;background:#f5f5f0;color:#25342c;font-family:system-ui,sans-serif}main{max-width:420px;margin:8vh auto;padding:28px;background:white;border:1px solid #e0e3d9;border-radius:12px}h1{font-size:25px;margin:8px 0 20px}p{font-size:15px;line-height:1.6;color:#627456}label{display:block;margin:24px 0 10px}input,button{width:100%;min-height:48px;padding:12px;font:inherit;font-size:16px;border-radius:6px}input{border:1px solid #b8c6b1;text-transform:uppercase}button{margin-top:16px;background:#3b6347;color:white;border:0;cursor:pointer;touch-action:manipulation}input:focus-visible,button:focus-visible{outline:3px solid #82a78b;outline-offset:3px}.error{color:#916c48}.brand{font-weight:650;color:#3b6347}small{display:block;margin-top:20px;line-height:1.6;color:#7b837c}
+  </style>
+</head>
+<body><main>
+  <div class="brand">recorrido</div>
+  <h1>Conecta tu celular</h1>
+  <p>En el Mac, abre <strong>http://localhost:4173</strong> y busca “Capturar desde el celular”. Introduce aquí el código que aparece allí.</p>
+  <p class="error" role="alert"><!--MESSAGE--></p>
+  <form method="post" action="/connect">
+    <input type="hidden" name="token" value="<!--TOKEN-->">
+    <label for="code">Código de conexión</label>
+    <input id="code" name="code" placeholder="XXXX-XXXX" maxlength="17" required autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="go">
+    <button type="submit">Entrar al estudio</button>
+  </form>
+  <small>El código cambia al reiniciar el servidor. Conecta ambos dispositivos al mismo Wi-Fi. Si vuelves a esta pantalla después de entrar, permite las cookies de este sitio.</small>
+</main></body></html>

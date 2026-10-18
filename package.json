@@ -1,0 +1,21 @@
+{
+  "name": "recorrido-mvp",
+  "version": "0.1.0",
+  "description": "MVP local para crear recorridos 3D desde video de celular o importar Gaussian Splats PLY.",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/ignaciofmh/playcanvas.git" },
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "bash scripts/start.sh",
+    "start:lan": "bash scripts/start.sh --lan",
+    "setup": "bash scripts/setup-macos.sh",
+    "check": "node --check server.mjs && node --check lib/pipeline.mjs && node --check lib/store.mjs && node --check lib/cameras.mjs && node --check public/app.js",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "@playcanvas/splat-transform": "3.10.0",
+    "@playcanvas/supersplat-viewer": "1.37.0"
+  }
+}

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f5f0">
+  <title>Recorrido · Estudio 3D</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="/" aria-label="Recorrido, inicio"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="m16 3 12 7v13l-12 7-12-7V10Z M4 10l12 7 12-7 M16 17v13 M10 7l12 7v7"/></svg>recorrido<span>β</span></a>
+    <div class="workspace-label">ESTUDIO DE CAPTURA</div>
+    <a class="nav active" href="#capture"><span>＋</span> Crear recorrido</a>
+    <a class="nav" href="#history"><span>▦</span> Mis recorridos <span id="job-count" class="count">0</span></a>
+    <div class="sidebar-bottom"><span class="dot"></span> Procesamiento local<p>Tus capturas se guardan<br>en este computador.</p></div>
+  </aside>
+  <main>
+    <header class="topbar"><span>Estudio <span class="slash">/</span> Nuevo recorrido</span><span class="local-badge">MVP · local</span></header>
+    <section class="intro" id="capture">
+      <div><div class="eyebrow">DE LA CÁMARA AL ESPACIO</div><h1>Tu espacio, en 3D.</h1><p>Graba con tu celular. Crea un recorrido que puedas explorar.</p></div>
+      <a href="#guide" class="guide-link">Cómo grabar una buena captura <span>↗</span></a>
+    </section>
+    <div id="error" class="notice error" role="alert" hidden></div>
+    <div id="setup-notice" class="notice" hidden></div>
+    <section id="connection" class="notice" hidden><strong>Capturar desde el celular</strong><p>Abre esta dirección en el celular y escribe el código. Da acceso a tus recorridos locales; compártelo solo con tu dispositivo.</p><p>Código de conexión: <strong id="pairing-code"></strong></p><div id="connection-links"></div></section>
+    <div class="studio-grid">
+      <section class="card capture-card" aria-labelledby="new-title">
+        <div class="card-heading"><span class="step-number">01</span><h2 id="new-title">Prepara tu captura</h2></div>
+        <form id="capture-form">
+          <label for="title">Nombre del espacio</label><input id="title" name="title" maxlength="120" required placeholder="Ej. Living · Departamento Providencia" autocomplete="off">
+          <div class="upload-zone" id="upload-zone">
+            <svg class="camera-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M7 15h9l4-6h8l4 6h9v25H7Z"/><circle cx="24" cy="27" r="8"/><path d="M35 21h1"/></svg>
+            <h3 id="file-title">Un video. Un nuevo punto de vista.</h3>
+            <p id="file-info">MP4, MOV o WebM · hasta 3 min · máximo 1 GB</p>
+            <div class="upload-actions"><button type="button" id="choose-file" class="button secondary">Elegir video <span>↑</span></button><button type="button" id="open-camera" class="button light">Usar cámara</button></div>
+            <input type="file" id="video-file" accept="video/*,.mov,.mp4,.webm" hidden>
+            <input type="file" id="camera-file" accept="video/*" capture="environment" hidden>
+          </div>
+          <button type="button" id="choose-splat" class="text-button">Ya tengo un escaneo · importar .ply</button>
+          <input type="file" id="splat-file" accept=".ply" hidden>
+          <div id="quality-field"><label for="profile">Calidad del primer recorrido</label>
+          <select id="profile"><option value="quick">Borrador · procesar más rápido</option><option value="detailed">Más detalle · procesar por más tiempo</option></select></div>
+          <p class="field-note" id="capture-note">Empieza con una habitación y un video de 30–90 segundos.</p>
+          <button id="create-button" class="button primary" type="submit" disabled>Crear recorrido <span>→</span></button>
+          <div id="upload-progress" hidden><progress id="upload-meter" max="100" value="0"></progress><p id="upload-label" aria-live="polite">Subiendo video…</p></div>
+        </form>
+      </section>
+      <section class="card preview-card" aria-labelledby="preview-title">
+        <div class="preview-heading"><div class="card-heading"><span class="step-number">02</span><h2 id="preview-title">Explora el resultado</h2></div><span id="preview-badge" class="small-badge">VISTA PREVIA</span></div>
+        <div id="empty-preview" class="empty-preview">
+          <svg class="space-diagram" viewBox="0 0 500 290" aria-hidden="true"><defs><pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#dce1d8" stroke-width=".7"/></pattern></defs><rect width="500" height="290" fill="url(#grid)"/><g fill="none" stroke="#a8b6a6" stroke-width="1.5"><path d="m90 200 160 67 160-67V70L250 8 90 70Z M90 70l160 65 160-65 M250 135v132"/><path d="M128 154v-59l48 20v60Z M319 235v-72l46-18v72 M270 149l34-13v39l-34 13Z"/><path d="m140 209 75-30 56 24-75 30Z M140 209v15l56 24 75-30v-15 M196 233v15"/></g><path d="M193 182c27-22 73-13 99-32s24-32 53-28" fill="none" stroke="#486e52" stroke-width="2" stroke-dasharray="5 6"/><circle cx="193" cy="182" r="6" fill="#486e52"/><circle cx="345" cy="122" r="6" fill="#486e52"/></svg>
+          <h3>Aquí empieza tu recorrido.</h3><p>Cuando termine el procesamiento,<br>podrás moverte entre las vistas de tu captura.</p><span class="diagram-label">Esquema de captura · no es una reconstrucción</span>
+        </div>
+        <iframe id="tour-viewer" title="Recorrido 3D del espacio" allow="fullscreen" hidden></iframe>
+        <div id="processing" class="processing" hidden><div class="processing-top"><span class="pulse-dot"></span><h3 id="processing-title">Procesando captura</h3></div><p id="processing-message" aria-live="polite"></p><ol id="stage-list"></ol><p class="processing-note">Puedes cerrar esta pestaña. Mantén el computador y el servidor encendidos.</p><button id="cancel-button" class="text-button">Cancelar procesamiento</button></div>
+        <div id="failed-preview" class="failed-preview" hidden><span class="failure-symbol">!</span><h3 id="failed-title">La captura necesita otra revisión</h3><p id="failed-message"></p><button id="retry-button" class="button secondary" hidden>Volver a procesar</button></div>
+        <div id="result-actions" class="result-actions" hidden><div><strong id="result-name"></strong><p id="result-meta"></p></div><div class="result-buttons"><a id="download-link" class="button light" download>Descargar 3D ↓</a><a id="open-tour" class="button secondary" target="_blank" rel="noopener">Abrir tour ↗</a></div></div>
+        <div id="warnings" class="warnings" hidden></div>
+        <details id="log-details" class="log-details" hidden><summary>Ver diagnóstico del procesamiento</summary><pre id="log-output"></pre></details>
+      </section>
+    </div>
+    <section class="guide card" id="guide"><div class="guide-heading"><div class="eyebrow">UNA BUENA CAPTURA HACE LA DIFERENCIA</div><h2>Camina. Mira. Conecta los ángulos.</h2></div><div class="guide-steps"><div><span>01</span><h3>Prepara la habitación</h3><p>Buena luz, objetos quietos y puertas abiertas. Mantén la misma lente y evita cambiar el zoom.</p></div><div><span>02</span><h3>Muévete despacio</h3><p>Camina por el espacio. Captura paredes, suelo y muebles desde varios ángulos; no gires desde un solo punto.</p></div><div><span>03</span><h3>Repite lo que falta</h3><p>Conecta cada vista con la anterior. Evita imágenes borrosas, espejos y personas en movimiento.</p></div></div></section>
+    <section id="history" class="history"><div class="history-heading"><h2>Mis recorridos</h2><span id="history-note">Guardados en este computador</span></div><div id="job-list" class="job-list"><p class="empty-history">Tu primera captura aparecerá aquí.</p></div></section>
+    <footer>Recorrido · MVP de captura y visualización <span>Android + iPhone · sin servicios de procesamiento externos</span></footer>
+  </main>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
